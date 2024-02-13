@@ -47,11 +47,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     getFrameHtmlResponse({
       buttons: [
         {
-          label: `Apply 2Clickz (Click to Refresh)`,
+          label: `Apply 2Clickz (Refresh)`,
         },
         {
           action: 'link',
-          label: 'Buy 2Clickz Trait for 5000 $steak',
+          label: 'Buy 2Clickz Trait',
           target: 'https://steak.cryptodadsnft.com/shop?filter=CUSTOMIZE-DAD',
         },
       ],

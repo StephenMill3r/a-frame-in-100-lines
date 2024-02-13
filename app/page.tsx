@@ -18,7 +18,7 @@ const frameMetadata = getFrameMetadata({
     aspectRatio: '1:1',
   },
   input: {
-    text: 'Enter your CryptoDad # to see what he looks like!',
+    text: 'Enter your CryptoDad #',
   },
   postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
 });
