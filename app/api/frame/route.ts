@@ -27,7 +27,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     
     // Wait for fetchDrip to complete before proceeding
     const dripbot = await fetchDrip(tokenId);
+    if (dripbot.image_url!=null){
     imageResponse = dripbot.image_url;
+    }
   }
 
   // The NextResponse is now created and returned after the asynchronous operations have completed
