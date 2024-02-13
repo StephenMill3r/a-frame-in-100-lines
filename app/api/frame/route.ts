@@ -1,7 +1,6 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { NEXT_PUBLIC_URL } from '../../config';
-import { useRef, useEffect, useState, useMemo } from 'react'
 
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -9,12 +8,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   let text: string | undefined = '';  
   let tokenId: string | undefined = '';   
   const fetcher = (url) => fetch(url).then((r) => r.json())
-  const [previewTraitsLoading, setPreviewTraitsLoading] = useState(false)
-  const [isPreviewTokenID, setIsPreviewTokenID] = useState(null)
-  const [isPreviewRunID, setIsPreviewRunID] = useState(null)
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
-  const [imageResponse, setImageResponse] = useState(`https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`);
+  var imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
   
   async function fetchDrip(tokenId: number) {
      const dripbot = await fetcher(`https://api.thedripbot.com/dripbot/drip/cryptodads/?token_id=${tokenId}&accessory=2%20Clickz`)
@@ -32,12 +28,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       tokenId = parseInt(text!);
       fetchDrip(tokenId).then((dripbot) => {
         if (dripbot.status == 'COMPLETED') {
-          setImageResponse(dripbot.image_url)
-        }
-        else if (dripbot.status == 'RUNNING') {
-
-          setIsPreviewTokenID(dripbot.token_id)
-          setIsPreviewRunID(dripbot.run_id)
+          imageResponse = dripbot.image_url
         }
       })
         
