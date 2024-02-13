@@ -23,8 +23,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   if (message?.input) {
     text = message.input;
-    if (Number.isInteger(parseInt(text!))){
-
       const tokenId = parseInt(text!);
       fetchDrip(tokenId).then((dripbot) => {
         if (dripbot.status == 'COMPLETED') {
@@ -32,7 +30,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         }
       })
         
-    } 
+     
   }
 
   // if (message?.button === 3) {

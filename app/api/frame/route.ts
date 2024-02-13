@@ -22,16 +22,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   if (message?.input) {
     text = message.input;
-    if (Number.isInteger(parseInt(text!))){
-
       const tokenId = parseInt(text!);
       fetchDrip(tokenId).then((dripbot) => {
         if (dripbot.status == 'COMPLETED') {
           imageResponse = dripbot.image_url
         }
       })
-        
-    } 
   }
 
   // if (message?.button === 3) {
@@ -50,17 +46,14 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
         {
           action: 'link',
-          label: 'Buy 2Clickz Trait for 5000 $steak',
+          label: 'Buy 2Clickz Trait',
           target: 'https://steak.cryptodadsnft.com/shop?filter=CUSTOMIZE-DAD',
         },
       ],
       image: {
         src: imageResponse,
       },
-      input: {
-        text: `${text}`,
-      },
-      postUrl: `${NEXT_PUBLIC_URL}/api/frame2`,
+      postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
     }),
   );
 }
