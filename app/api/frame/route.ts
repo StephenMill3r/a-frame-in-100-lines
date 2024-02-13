@@ -5,7 +5,7 @@ import { NEXT_PUBLIC_URL } from '../../config';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
-  let text: string | undefined = '';     
+  let dadid: string | null = '';     
   const fetcher = (url:string) => fetch(url).then((r) => r.json())
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
@@ -19,19 +19,25 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (isValid) {
     accountAddress = message.interactor.verified_accounts[0];
   }
+  const url = new URL(req.url, `http://${req.headers.get('host')}`);
+  dadid = url.searchParams.get('dadid');
+  if (dadid) {    
+    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${dadid}.png`;
+  }
 
   if (message?.input) {
-    text = message.input;
-    text = text.replace(/\D/g,'');
-    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
-    const tokenId = parseInt(text);
+    dadid = message.input;
+    dadid = dadid.replace(/\D/g,'');
+
+    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${dadid}.png`;
+    const tokenId = parseInt(dadid);
     
     // Wait for fetchDrip to complete before proceeding
     const dripbot = await fetchDrip(tokenId);
     if (dripbot.status == 'COMPLETED'){
     imageResponse = dripbot.image_url;
     }else if (dripbot.status == 'RUNNING'){
-    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
+    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${dadid}.png`;
     const tryagain = await fetchDrip(tokenId);
     if (tryagain.status == 'COMPLETED'){
     imageResponse = tryagain.image_url;
@@ -58,9 +64,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         aspectRatio: '1:1',
       },
       input: {
-        text: text? text : 'Enter your CryptoDad #',
+        text: dadid? dadid : 'Enter your CryptoDad #',
       },
-      postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
+      postUrl: `${NEXT_PUBLIC_URL}/api/frame?dadid=${dadid}`,
     }),
   );
 }
