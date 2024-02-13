@@ -10,6 +10,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
   var imageResponse = 'https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/steak-shop-images/2Clickz.png'
+
   async function fetchDrip(tokenId: number) {
      const dripbot = await fetcher(`https://api.thedripbot.com/dripbot/drip/cryptodads/?token_id=${tokenId}&accessory=2%20Clickz`)
      return dripbot;
@@ -21,24 +22,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   if (message?.input) {
     text = message.input;
+    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
+    const tokenId = parseInt(text);
     
-   imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
-      const tokenId = parseInt(text);
-      fetchDrip(tokenId).then((dripbot) => {
-        
-          imageResponse = dripbot.image_url
-        
-      })
+    // Wait for fetchDrip to complete before proceeding
+    const dripbot = await fetchDrip(tokenId);
+    imageResponse = dripbot.image_url;
   }
 
-  // if (message?.button === 3) {
-  //   return NextResponse.redirect(
-  //     'https://steak.cryptodadsnft.com/shop?filter=CUSTOMIZE-DAD',
-  //     { status: 302 },
-  //   );
-  // }
-  
-
+  // The NextResponse is now created and returned after the asynchronous operations have completed
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
@@ -62,6 +54,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }),
   );
 }
+
 
 export async function POST(req: NextRequest): Promise<Response> {
   return getResponse(req);
