@@ -7,7 +7,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
   let text: string | undefined = '';  
   let tokenId: string | undefined = '';   
-  const fetcher = (url) => fetch(url).then((r) => r.json())
+  const fetcher = (url:string) => fetch(url).then((r) => r.json())
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
   var imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
