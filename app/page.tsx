@@ -9,8 +9,8 @@ const frameMetadata = getFrameMetadata({
     },
     {
       action: 'link',
-      label: 'Link to Google',
-      target: 'https://www.google.com',
+      label: 'Link to Cryptodads',
+      target: 'https://www.cryptodadsnft.com',
     },
     {
       label: 'Redirect to pictures',
@@ -28,10 +28,10 @@ const frameMetadata = getFrameMetadata({
 });
 
 export const metadata: Metadata = {
-  title: 'zizzamia.xyz',
+  title: 'testing-sigma-six',
   description: 'LFG',
   openGraph: {
-    title: 'zizzamia.xyz',
+    title: 'this is my title',
     description: 'LFG',
     images: [`${NEXT_PUBLIC_URL}/park-1.png`],
   },
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <h1>zizzamia.xyz</h1>
+      <h1>Test 1</h1>
     </>
   );
 }
