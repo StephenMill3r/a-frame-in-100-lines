@@ -6,7 +6,7 @@ import { NEXT_PUBLIC_URL } from '../../config';
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
   let text: string | undefined = '';  
-  let tokenId: string | undefined = '';   
+  
   const fetcher = (url:string) => fetch(url).then((r) => r.json())
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
@@ -25,7 +25,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     text = message.input;
     if (Number.isInteger(parseInt(text!))){
 
-      tokenId = parseInt(text!);
+      const tokenId = parseInt(text!);
       fetchDrip(tokenId).then((dripbot) => {
         if (dripbot.status == 'COMPLETED') {
           imageResponse = dripbot.image_url
