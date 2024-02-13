@@ -5,35 +5,31 @@ import { NEXT_PUBLIC_URL } from './config';
 const frameMetadata = getFrameMetadata({
   buttons: [
     {
-      label: 'Story time!',
+      label: 'Select Dad',
     },
     {
       action: 'link',
-      label: 'Link to Cryptodads',
-      target: 'https://www.cryptodadsnft.com',
-    },
-    {
-      label: 'Redirect to pictures',
-      action: 'post_redirect',
+      label: 'Buy 2Clickz Trait for 5000 $steak',
+      target: 'https://steak.cryptodadsnft.com/shop?filter=CUSTOMIZE-DAD',
     },
   ],
   image: {
-    src: `${NEXT_PUBLIC_URL}/park-3.png`,
+    src: `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/steak-shop-images/2Clickz.png`,
     aspectRatio: '1:1',
   },
   input: {
-    text: 'Tell me a boat story',
+    text: 'Enter your CryptoDad # to see what he looks like!',
   },
   postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
 });
 
 export const metadata: Metadata = {
-  title: 'testing-sigma-six',
+  title: 'CryptoDad Trait Viewer Frame',
   description: 'LFG',
   openGraph: {
     title: 'this is my title',
     description: 'LFG',
-    images: [`${NEXT_PUBLIC_URL}/park-1.png`],
+    images: [`https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/steak-shop-images/2Clickz.png`],
   },
   other: {
     ...frameMetadata,

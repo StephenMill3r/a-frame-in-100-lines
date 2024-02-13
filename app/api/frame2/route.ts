@@ -9,9 +9,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   let text: string | undefined = '';  
   let tokenId: string | undefined = '';   
   const fetcher = (url) => fetch(url).then((r) => r.json())
-  const [previewTraitsLoading, setPreviewTraitsLoading] = useState(false)
-  const [isPreviewTokenID, setIsPreviewTokenID] = useState(null)
-  const [isPreviewRunID, setIsPreviewRunID] = useState(null)
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
   const [imageResponse, setImageResponse] = useState(`https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`);
@@ -34,11 +31,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         if (dripbot.status == 'COMPLETED') {
           setImageResponse(dripbot.image_url)
         }
-        else if (dripbot.status == 'RUNNING') {
-
-          setIsPreviewTokenID(dripbot.token_id)
-          setIsPreviewRunID(dripbot.run_id)
-        }
       })
         
     } 
@@ -56,7 +48,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     getFrameHtmlResponse({
       buttons: [
         {
-          label: `Apply 2Clickz`,
+          label: `Apply 2Clickz (Click to Refresh)`,
         },
         {
           action: 'link',
