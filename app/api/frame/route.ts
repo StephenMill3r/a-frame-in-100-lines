@@ -22,6 +22,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   if (message?.input) {
     text = message.input;
+    text = text.replace(/\D/g,'');
     imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
     const tokenId = parseInt(text);
     
@@ -29,6 +30,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const dripbot = await fetchDrip(tokenId);
     if (dripbot.status == 'COMPLETED'){
     imageResponse = dripbot.image_url;
+    }else if (dripbot.status == 'RUNNING'){
+    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
+    const tryagain = await fetchDrip(tokenId);
+    if (tryagain.status == 'COMPLETED'){
+    imageResponse = tryagain.image_url;
+    }
+
     }
   }
 
@@ -37,7 +45,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     getFrameHtmlResponse({
       buttons: [
         {
-          label: `Apply 2Clickz`,
+          label: `Apply 2Clickz (refresh)`,
         },
         {
           action: 'link',
