@@ -55,6 +55,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         src: imageResponse,
         aspectRatio: '1:1',
       },
+      input: {
+        text: text? text : 'Enter your CryptoDad #',
+      },
       postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
     }),
   );
