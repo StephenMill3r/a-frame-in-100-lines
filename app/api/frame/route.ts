@@ -21,17 +21,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
   const url = new URL(req.url, `http://${req.headers.get('host')}`);
   dadid = url.searchParams.get('dadid');
-  if (dadid) {    
-    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${dadid}.png`;
-  }
 
   if (message?.input) {
     dadid = message.input;
     dadid = dadid.replace(/\D/g,'');
 
     imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${dadid}.png`;
-    const tokenId = parseInt(dadid);
     
+    }
+
+  if (dadid) {    
+    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${dadid}.png`;
+ 
+    const tokenId = parseInt(dadid.replace(/\D/g,''));
     // Wait for fetchDrip to complete before proceeding
     const dripbot = await fetchDrip(tokenId);
     if (dripbot.status == 'COMPLETED'){
@@ -42,8 +44,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     if (tryagain.status == 'COMPLETED'){
     imageResponse = tryagain.image_url;
     }
+  
+  }
 
-    }
   }
 
   // The NextResponse is now created and returned after the asynchronous operations have completed
