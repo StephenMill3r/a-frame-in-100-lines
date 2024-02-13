@@ -25,9 +25,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
    imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
       const tokenId = parseInt(text);
       fetchDrip(tokenId).then((dripbot) => {
-        if (dripbot.status == 'COMPLETED') {
+        
           imageResponse = dripbot.image_url
-        }
+        
       })
   }
 
