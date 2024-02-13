@@ -9,7 +9,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const fetcher = (url:string) => fetch(url).then((r) => r.json())
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
-  
+  var imageResponse = 'https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/steak-shop-images/2Clickz.png'
   async function fetchDrip(tokenId: number) {
      const dripbot = await fetcher(`https://api.thedripbot.com/dripbot/drip/cryptodads/?token_id=${tokenId}&accessory=2%20Clickz`)
      return dripbot;
@@ -22,7 +22,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (message?.input) {
     text = message.input;
     
-  var imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
+   imageResponse = `https://cryptodadsnft.nyc3.cdn.digitaloceanspaces.com/cryptodads-images/${text}.png`;
       const tokenId = parseInt(text);
       fetchDrip(tokenId).then((dripbot) => {
         if (dripbot.status == 'COMPLETED') {
