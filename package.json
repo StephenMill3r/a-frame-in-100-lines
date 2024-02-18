@@ -2,11 +2,10 @@
   "name": "a-frame-in-100-lines",
   "version": "0.5.1",
   "scripts": {
-    "build": "rm -rf .next && next build",
     "dev": "next dev",
-    "format": "prettier --log-level warn --write .",
+    "build": "next build",
     "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "next lint"
   },
   "keywords": [],
   "author": "https://twitter.com/Zizzamia",
